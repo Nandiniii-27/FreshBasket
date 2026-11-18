@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - FreshBasket</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8f5;
+            margin: 0;
+        }
+
+        .container {
+            width: 300px;
+            margin: 80px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .helptext {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>FreshBasket</h2>
+
+    <p style="text-align:center;">Welcome Back!</p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p style="text-align:center;">
+        Don't have an account?
+        <a href="{% url 'register' %}">Register</a>
+    </p>
+
+</div>
+
+</body>
+</html>

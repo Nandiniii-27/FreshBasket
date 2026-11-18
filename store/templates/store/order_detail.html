@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Orders - FreshBasket</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f8f5;
+        }
+
+        .container {
+            width: 350px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: green;
+            text-align: center;
+        }
+
+        .order {
+            background: #f5f8f5;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 5px;
+        }
+
+        a {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>My Orders</h2>
+
+    {% for order in orders %}
+
+        <div class="order">
+
+            <h3>Order #{{ order.id }}</h3>
+
+            <p>Date: {{ order.created_at }}</p>
+
+            <p>Total: ₹{{ order.total_amount }}</p>
+
+            <p>Status: {{ order.status }}</p>
+
+            <a href="{% url 'order_detail' order.id %}">
+                View Details
+            </a>
+
+        </div>
+
+    {% empty %}
+
+        <p>You haven't placed any orders yet.</p>
+
+    {% endfor %}
+
+    <a href="{% url 'home' %}">Back to Home</a>
+
+</div>
+
+</body>
+</html>

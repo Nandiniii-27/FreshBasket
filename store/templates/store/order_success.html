@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Successful</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f8f5;
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            width: 320px;
+            margin: 100px auto;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: green;
+        }
+
+        a {
+            display: block;
+            margin: 15px;
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Order Placed Successfully!</h2>
+
+    <p>Thank you for shopping with FreshBasket.</p>
+
+    <h3>Order #{{ order.id }}</h3>
+
+    <p>Total: ₹{{ order.total_amount }}</p>
+
+    <p>Status: {{ order.status }}</p>
+
+    <a href="{% url 'order_history' %}">View My Orders</a>
+
+    <a href="{% url 'home' %}">Continue Shopping</a>
+
+</div>
+
+</body>
+</html>

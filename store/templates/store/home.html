@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fresh Basket - Grocery Delivery</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f7f8fa;
+            color: #222;
+        }
+
+        header {
+            background: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px #ddd;
+        }
+
+        .logo {
+            color: #168b45;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .delivery {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .search-box {
+            padding: 12px;
+            width: 35%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f5f5f5;
+        }
+
+        .banner {
+            margin: 25px 6%;
+            padding: 35px;
+            background: #e7f8d9;
+            border-radius: 15px;
+        }
+
+        .banner h1 {
+            color: #168b45;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            color: #555;
+            font-size: 17px;
+        }
+
+        .section {
+            margin: 30px 6%;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+        }
+
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 20px;
+}
+
+.product {
+    background: white;
+    padding: 15px;
+    width: 220px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    transition: 0.3s;
+}
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px #ddd;
+        }
+
+        .product img {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .product h3 {
+            margin-bottom: 8px;
+        }
+
+        .category {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .description {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #168b45;
+            font-size: 18px;
+        }
+
+        .stock {
+            font-size: 12px;
+            color: #168b45;
+            margin-top: 8px;
+        }
+
+        footer {
+            background: #168b45;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align:right; padding:15px;">
+
+    {% if user.is_authenticated %}
+
+        Welcome, {{ user.username }}!
+
+        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+
+    {% else %}
+
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+
+    {% endif %}
+
+</div>
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+    <header>
+        <div class="logo">Fresh Basket 🛒</div>
+
+        <div class="delivery">
+            ⚡ Fresh groceries delivered to your doorstep
+        </div>
+
+</form>
+       <form method="GET" action="">
+    <input
+        type="text"
+        name="q"
+        class="search-box"
+        placeholder="Search for groceries..."
+        value="{{ query }}"
+    >
+    <button type="submit">Search</button>
+</form>
+</form>
+    </header>
+
+    <section class="banner">
+        <h1>Groceries delivered fresh!</h1>
+        <p>Your daily essentials, just a few clicks away.</p>
+    </section>
+
+    <section class="section">
+        <h2>Our Products 🥦</h2>
+
+        <div class="products">
+
+            {% for product in products %}
+
+            <div class="product">
+
+
+
+{% if product.image %}
+    <img src="{{ product.image }}" alt="{{ product.name }}">
+{% endif %}
+
+                <h3>{{ product.name }}</h3>
+
+                <p class="category">{{ product.category }}</p>
+
+                <p class="description">{{ product.description }}</p>
+
+                <p class="price">₹{{ product.price }}</p>
+
+                <p class="stock">
+                    {% if product.stock > 0 %}
+                        ✓ In Stock
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </p>
+{% if product.stock > 0 %}
+    <form method="POST" action="{% url 'add_to_cart' product.id %}">
+        {% csrf_token %}
+        <button type="submit">🛒 Add to Cart</button>
+    </form>
+{% else %}
+    <p>Out of Stock</p>
+{% endif %}
+            </div>
+
+            {% empty %}
+
+            <p>No products available.</p>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Fresh Basket | Freshness at your doorstep 🛒</p>
+    </footer>
+
+</body>
+</html>

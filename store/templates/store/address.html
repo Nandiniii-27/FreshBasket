@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delivery Address - FreshBasket</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f8f5;
+            margin: 0;
+        }
+
+        .container {
+            width: 320px;
+            margin: 50px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #ddd;
+        }
+
+        h2 {
+            text-align: center;
+            color: green;
+        }
+
+        h3 {
+            font-size: 17px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        .saved {
+            background: #f5f8f5;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        a {
+            color: green;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>FreshBasket</h2>
+
+    <h3>Delivery Address</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            Full Name
+            {{ form.full_name }}
+        </p>
+
+        <p>
+            Mobile Number
+            {{ form.mobile }}
+        </p>
+
+        <p>
+            Address
+            {{ form.address }}
+        </p>
+
+        <p>
+            City
+            {{ form.city }}
+        </p>
+
+        <p>
+            PIN Code
+            {{ form.pincode }}
+        </p>
+
+        <button type="submit">Save Address</button>
+    </form>
+
+    <h3>Saved Addresses</h3>
+
+    {% for item in addresses %}
+        <div class="saved">
+            <strong>{{ item.full_name }}</strong><br>
+            {{ item.mobile }}<br>
+            {{ item.address }}<br>
+            {{ item.city }} - {{ item.pincode }}
+        </div>
+    {% empty %}
+        <p>No saved addresses yet.</p>
+    {% endfor %}
+
+    <br>
+
+    <a href="{% url 'cart' %}">← Back to Cart</a>
+
+</div>
+
+</body>
+</html>

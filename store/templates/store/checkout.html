@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout - FreshBasket</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f8f5;
+        }
+
+        .container {
+            width: 350px;
+            margin: 40px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: green;
+            text-align: center;
+        }
+
+        .item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .total {
+            font-weight: bold;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>FreshBasket</h2>
+    <h3>Checkout</h3>
+
+    <h3>Your Products</h3>
+
+    {% for item in cart_items %}
+
+        <div class="item">
+            {{ item.product.name }}<br>
+            Quantity: {{ item.quantity }}<br>
+            Price: ₹{{ item.subtotal }}
+        </div>
+
+    {% endfor %}
+
+    <p class="total">Total Amount: ₹{{ total }}</p>
+
+    <form method="POST" action="{% url 'place_order' %}">
+
+        {% csrf_token %}
+
+        <h3>Select Delivery Address</h3>
+
+        <select name="address" required>
+
+            {% for address in addresses %}
+
+                <option value="{{ address.id }}">
+                    {{ address.full_name }} -
+                    {{ address.city }} -
+                    {{ address.pincode }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button type="submit">Place Order</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
