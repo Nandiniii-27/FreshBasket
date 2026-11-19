@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get(
     'SECRET_KEY',
-    '$5=w@)153$k*q85p3$(-(h7os1cq!)&a2hz0968ueop9+wq%09'
+    '3gbxeu6t*q7rjk=3-09y#p^zt*s7_^lqnw66x@sm90@pyy5%1!'
 )
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
@@ -80,17 +81,24 @@ WSGI_APPLICATION = 'freshbasket.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'freshbasket_db',
-        'USER': 'root',
-        'PASSWORD': 'nandini',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+if os.environ.get('DATABASE_URL'):
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.environ.get('DATABASE_URL'),
+            conn_max_age=600
+        )
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'freshbasket_db',
+            'USER': 'root',
+            'PASSWORD': 'YOUR_MYSQL_PASSWORD',
+            'HOST': '127.0.0.1',
+            'PORT': '3306',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
